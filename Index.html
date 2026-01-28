@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Database</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            width: 60%;
+            margin: auto;
+            padding: 20px;
+            box-shadow: 0px 0px 10px gray;
+        }
+        input {
+            padding: 8px;
+            margin: 5px;
+            width: 60%;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .movie {
+            background: #eee;
+            margin: 10px;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>🎬 Movie Database</h2>
+
+<div class="container">
+
+    <h3>Add Movie</h3>
+    <input type="text" id="title" placeholder="Movie Title"><br>
+    <input type="text" id="director" placeholder="Director Name"><br>
+    <input type="number" id="year" placeholder="Release Year"><br>
+    <input type="text" id="genre" placeholder="Genre"><br>
+    <button onclick="addMovie()">Add Movie</button>
+
+    <h3>Search Movie</h3>
+    <input type="text" id="searchTitle" placeholder="Enter title to search">
+    <button onclick="searchMovie()">Search</button>
+
+    <h3>Movie Details</h3>
+    <div id="movieList"></div>
+
+</div>
+
+<script>
+    let movies = [];
+
+    function addMovie() {
+        let title = document.getElementById("title").value;
+        let director = document.getElementById("director").value;
+        let year = document.getElementById("year").value;
+        let genre = document.getElementById("genre").value;
+
+        if(title === "" || director === "" || year === "" || genre === "") {
+            alert("Please fill all fields!");
+            return;
+        }
+
+        let movie = {title, director, year, genre};
+        movies.push(movie);
+
+        alert("Movie added successfully!");
+        displayMovies();
+        clearFields();
+    }
+
+    function displayMovies() {
+        let list = document.getElementById("movieList");
+        list.innerHTML = "";
+
+        movies.forEach(movie => {
+            list.innerHTML += `
+                <div class="movie">
+                    <p><b>Title:</b> ${movie.title}</p>
+                    <p><b>Director:</b> ${movie.director}</p>
+                    <p><b>Year:</b> ${movie.year}</p>
+                    <p><b>Genre:</b> ${movie.genre}</p>
+                </div>
+            `;
+        });
+    }
+
+    function searchMovie() {
+        let searchTitle = document.getElementById("searchTitle").value.toLowerCase();
+        let list = document.getElementById("movieList");
+        list.innerHTML = "";
+
+        let found = movies.filter(movie => movie.title.toLowerCase() === searchTitle);
+
+        if(found.length === 0) {
+            list.innerHTML = "<p>Movie not found!</p>";
+            return;
+        }
+
+        found.forEach(movie => {
+            list.innerHTML += `
+                <div class="movie">
+                    <p><b>Title:</b> ${movie.title}</p>
+                    <p><b>Director:</b> ${movie.director}</p>
+                    <p><b>Year:</b> ${movie.year}</p>
+                    <p><b>Genre:</b> ${movie.genre}</p>
+                </div>
+            `;
+        });
+    }
+
+    function clearFields() {
+        document.getElementById("title").value = "";
+        document.getElementById("director").value = "";
+        document.getElementById("year").value = "";
+        document.getElementById("genre").value = "";
+    }
+</script>
+
+</body>
+                       </html>
